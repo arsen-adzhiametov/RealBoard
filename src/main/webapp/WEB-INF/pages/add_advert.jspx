@@ -64,6 +64,8 @@
                 </table>
             </form:form>
 
+            <input type="button" value="Back" onclick="history.go(-1);" />
+
             <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">text</script>
             <script type="text/javascript">
 
