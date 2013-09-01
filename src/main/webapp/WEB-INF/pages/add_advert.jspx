@@ -1,0 +1,94 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+          xmlns:form="http://www.springframework.org/tags/form">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+    //http://codetutr.com/2013/04/06/spring-mvc-form-submission/
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <jsp:element name="text">
+        <jsp:body>
+            <jsp:text>${advert}</jsp:text>
+
+            <form:form method="post" action="addadvert" commandName="advert">
+
+                <table>
+                    <tr>
+                        <td><form:label path="type">Type</form:label></td>
+                        <td><form:select path="type" id="frequencySelect">
+                            <form:options items="${operationValues}" />
+                        </form:select></td>
+                        <td><form:errors path="type" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="section">Section</form:label></td>
+                        <td><form:select path="section">
+                            <form:options items="${sectionValues}" />
+                        </form:select></td>
+                        <td><form:errors path="section" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="title">Title</form:label></td>
+                        <td><form:input path="title"/></td>
+                        <td><form:errors path="title" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="text">Text</form:label></td>
+                        <td><form:textarea path="text" rows="10" cssStyle="width: 300"/></td>
+                        <td><form:errors path="text" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+
+                    <tr>
+                        <td><form:label path="price">Price</form:label></td>
+                        <td><form:input path="price"/></td>
+                        <td><form:errors path="price" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+
+                    <tr>
+                        <td><form:label path="price">Contract price value</form:label></td>
+                        <td><form:checkbox path="contract" value="true"  id="newsletterCheckbox"/></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td><form:label path="name">Name</form:label></td>
+                        <td><form:input path="name"/></td>
+                        <td><form:errors path="name" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+
+                    <tr>
+                        <td><form:label path="phone">Phone</form:label></td>
+                        <td><form:input path="phone"/></td>
+                        <td><form:errors path="phone" cssStyle="color: red;"></form:errors></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Add"/></td>
+                    </tr>
+                </table>
+            </form:form>
+
+            <script type="text/javascript">
+
+                $(document).ready(function() {
+
+                    toggleFrequencySelectBox(); // show/hide box on page load
+
+                    $('#newsletterCheckbox').change(function() {
+                        toggleFrequencySelectBox();
+                    })
+
+                });
+
+                function toggleFrequencySelectBox() {
+                    if(!$('#newsletterCheckbox').is(':checked')) {
+                        $('#frequencySelect').val('');
+                        $('#frequencySelect').prop('disabled', true);
+                    } else {
+                        $('#frequencySelect').prop('disabled', false);
+                    }
+                }
+
+            </script>
+
+        </jsp:body>
+    </jsp:element>
+
+</jsp:root>

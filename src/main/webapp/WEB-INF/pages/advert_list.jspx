@@ -1,0 +1,47 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:form="http://www.springframework.org/tags/form">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <jsp:element name="text">
+        <jsp:body>
+
+            <a href="/gotoadd"> Add Advert </a>
+
+            <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                    <td>Type</td>
+                    <td>Section</td>
+                    <td>Title</td>
+                    <td>Text</td>
+                    <td>View Detail</td>
+                </tr>
+                <c:forEach items="${adverts}" var="advert">
+                    <tr>
+                        <td><c:out value="${advert.type}"/></td>
+                        <td><c:out value="${advert.section}"/></td>
+                        <td><c:out value="${advert.title}"/></td>
+                        <td><c:out value="${advert.text}"/></td>
+                        <td><form:form method="get" action="/viewdetail/${advert.id}">
+                            <input type="submit" value="Detail"/>
+                        </form:form></td>
+                    </tr>
+                </c:forEach>
+            </table>
+
+            <c:if test="${adverts.size() == 5}">
+                <form:form method="get" action="/paging/${page+1}">
+                    <input type="submit" value="next"/>
+                </form:form>
+            </c:if>
+
+            <c:if test="${page > 1}">
+                <form:form method="get" action="/paging/${page-1}">
+                    <input type="submit" value="last"/>
+                </form:form>
+            </c:if>
+
+        </jsp:body>
+    </jsp:element>
+
+</jsp:root>
