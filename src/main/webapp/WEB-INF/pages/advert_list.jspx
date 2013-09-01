@@ -6,6 +6,10 @@
     <jsp:element name="text">
         <jsp:body>
 
+            <form:form method="get" action="/adverts">
+                <input type="submit" value="Home"/>
+            </form:form>
+
             <a href="/gotoadd"> Add Advert </a>
 
             <table border="1" cellpadding="5" cellspacing="0">

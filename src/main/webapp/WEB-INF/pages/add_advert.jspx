@@ -2,8 +2,7 @@
           xmlns:form="http://www.springframework.org/tags/form">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
-    //http://codetutr.com/2013/04/06/spring-mvc-form-submission/
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <jsp:element name="text">
         <jsp:body>
             <jsp:text>${advert}</jsp:text>
@@ -13,7 +12,7 @@
                 <table>
                     <tr>
                         <td><form:label path="type">Type</form:label></td>
-                        <td><form:select path="type" id="frequencySelect">
+                        <td><form:select path="type">
                             <form:options items="${operationValues}" />
                         </form:select></td>
                         <td><form:errors path="type" cssStyle="color: red;"></form:errors></td>
@@ -38,13 +37,13 @@
 
                     <tr>
                         <td><form:label path="price">Price</form:label></td>
-                        <td><form:input path="price"/></td>
+                        <td><form:input path="price"  id="priceField"/></td>
                         <td><form:errors path="price" cssStyle="color: red;"></form:errors></td>
                     </tr>
 
                     <tr>
                         <td><form:label path="price">Contract price value</form:label></td>
-                        <td><form:checkbox path="contract" value="true"  id="newsletterCheckbox"/></td>
+                        <td><form:checkbox path="contract" value="true"  id="contractCheckbox"/></td>
                         <td></td>
                     </tr>
 
@@ -65,24 +64,22 @@
                 </table>
             </form:form>
 
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">text</script>
             <script type="text/javascript">
 
                 $(document).ready(function() {
-
-                    toggleFrequencySelectBox(); // show/hide box on page load
-
-                    $('#newsletterCheckbox').change(function() {
-                        toggleFrequencySelectBox();
+                    togglePriceFieldBox(); // show/hide box on page load
+                    $('#contractCheckbox').change(function() {
+                        togglePriceFieldBox();
                     })
-
                 });
 
-                function toggleFrequencySelectBox() {
-                    if(!$('#newsletterCheckbox').is(':checked')) {
-                        $('#frequencySelect').val('');
-                        $('#frequencySelect').prop('disabled', true);
+                function togglePriceFieldBox() {
+                    if($('#contractCheckbox').is(':checked')) {
+                        $('#priceField').val('');
+                        $('#priceField').prop('disabled', true);
                     } else {
-                        $('#frequencySelect').prop('disabled', false);
+                        $('#priceField').prop('disabled', false);
                     }
                 }
 
