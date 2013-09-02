@@ -70,7 +70,7 @@
             <script type="text/javascript">
 
                 $(document).ready(function() {
-                    togglePriceFieldBox(); // show/hide box on page load
+                    togglePriceFieldBox();
                     $('#contractCheckbox').change(function() {
                         togglePriceFieldBox();
                     })
