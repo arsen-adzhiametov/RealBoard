@@ -42,7 +42,8 @@ public class AddAdvertController {
         }
         advert.setTime(Calendar.getInstance());
         advertDao.create(advert);
-        model.addAttribute("adverts", advertDao.findAll());
+        model.addAttribute("adverts", advertDao.findRange(1, RedirectController.ITEMS_ON_PAGE));
+        model.addAttribute("page", 1);
         return "advert_list";
     }
 
