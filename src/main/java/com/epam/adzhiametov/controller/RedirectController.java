@@ -6,6 +6,7 @@ import com.epam.adzhiametov.model.Advert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,8 +26,7 @@ public class RedirectController {
     }
 
     @RequestMapping(value = "/gotoadd", method = RequestMethod.GET)
-    public String goToPage(ModelMap model) {
-        model.addAttribute("advert", new Advert());
+    public String goToPage(@ModelAttribute("advert") Advert advert, ModelMap model) {
         model.addAttribute("sectionValues", Section.values());
         model.addAttribute("operationValues", Operation.values());
         return "add_advert";
