@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 import java.util.Calendar;
 
-import static com.epam.adzhiametov.controller.RedirectController.itemsOnPage;
+import static com.epam.adzhiametov.controller.RedirectController.ITEMS_ON_PAGE;
 
 /**
  * Created by Arsen Adzhiametov on 7/31/13.
@@ -46,7 +46,7 @@ public class AddAdvertController {
         }
         advert.setTime(Calendar.getInstance());
         advertDao.create(advert);
-        model.addAttribute("adverts", advertDao.findRange(1, itemsOnPage));
+        model.addAttribute("adverts", advertDao.findRange(1, ITEMS_ON_PAGE));
         model.addAttribute("page", 1);
         return "advert_list";
     }

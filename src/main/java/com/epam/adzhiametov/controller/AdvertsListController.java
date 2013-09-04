@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-import static com.epam.adzhiametov.controller.RedirectController.itemsOnPage;
+import static com.epam.adzhiametov.controller.RedirectController.ITEMS_ON_PAGE;
 
 /**
  * Created by Arsen Adzhiametov on 7/31/13.
  */
 @Controller
 public class AdvertsListController {
-
 
     @Autowired
     AdvertDao advertDao;
@@ -31,7 +30,7 @@ public class AdvertsListController {
 
     @RequestMapping(value = "/paging/{page}", method = RequestMethod.GET)
     public String nextPage(@PathVariable("page") Integer page, Model model) {
-        List<Advert> adverts = advertDao.findRange(page, itemsOnPage);
+        List<Advert> adverts = advertDao.findRange(page, ITEMS_ON_PAGE);
         model.addAttribute("adverts", adverts);
         model.addAttribute("page", page);
         return "advert_list";

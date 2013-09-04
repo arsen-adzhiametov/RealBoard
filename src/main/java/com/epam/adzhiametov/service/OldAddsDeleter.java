@@ -5,7 +5,6 @@ import com.epam.adzhiametov.model.Advert;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,10 +20,8 @@ import java.util.List;
 @EnableScheduling
 public class OldAddsDeleter {
 
-    @Value("${deleter.daysGap}")
-    private static int days_gap;
-
-    private static final int DELETER_DELAY = 60000;
+    private static final int DAYS_GAP = 30;
+    private static final int DELETER_DELAY = 24 * 60 * 60 * 1000;
 
     @Autowired
     private AdvertDao advertDao;
@@ -45,7 +42,7 @@ public class OldAddsDeleter {
 
     private static boolean compareDatesTo30DaysGap(Calendar from, Calendar to) {
         int days = Days.daysBetween(new DateTime(from), new DateTime(to)).getDays();
-        return days > days_gap;
+        return days > DAYS_GAP;
     }
 
 }
