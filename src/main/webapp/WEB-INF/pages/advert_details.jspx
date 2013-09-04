@@ -13,7 +13,7 @@
 
             <h4>${advertDetail.name}, tel: ${advertDetail.phone}</h4>
 
-            <input type="button" value="Back" onclick="history.go(-1);" />
+            <input type="button" value="Back" onclick="history.go(-1);"/>
 
             <form:form method="get" action="/thisauthor/${advertDetail.phone}">
                 <input type="submit" value="All of this author"/>

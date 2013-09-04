@@ -13,19 +13,19 @@ public class ValidationHelper {
     private static final String PHONE_PATTERN = "^[+][1-9][0-9]{11}$";
     private static final String PRICE_PATTERN = "^[0-9]{0,7}\\.?[0-9]{1,2}$";
 
-    public static boolean isNameValid(String name){
+    public static boolean isNameValid(String name) {
         Pattern pattern = Pattern.compile(NAME_PATTERN);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
     }
 
-    public static boolean isPhoneValid(String phone){
+    public static boolean isPhoneValid(String phone) {
         Pattern pattern = Pattern.compile(PHONE_PATTERN);
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }
 
-    public static boolean isPriceValid(BigDecimal price){
+    public static boolean isPriceValid(BigDecimal price) {
         if (price == null) return false;
         Pattern pattern = Pattern.compile(PRICE_PATTERN);
         Matcher matcher = pattern.matcher(price.toString());

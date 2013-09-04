@@ -10,7 +10,7 @@ public enum Operation {
 
     private String value;
 
-    private Operation(String value){
+    private Operation(String value) {
         this.value = value;
     }
 

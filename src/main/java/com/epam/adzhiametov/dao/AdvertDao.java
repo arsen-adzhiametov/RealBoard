@@ -3,6 +3,7 @@ package com.epam.adzhiametov.dao;
 import com.epam.adzhiametov.model.Advert;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,13 +17,15 @@ public class AdvertDao extends JpaDao<Advert> {
         return Advert.class;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public List<Advert> findRange(int page, int count) {
         Query query = getSession().createQuery("from " + getEntityClass().getName() + " a order by a.time desc");
         query.setMaxResults(count);
-        query.setFirstResult((page-1)*count);
+        query.setFirstResult((page - 1) * count);
         return (List<Advert>) query.list();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public List<Advert> find(String phone) {
         Query query = getSession().createQuery("from " + getEntityClass().getName() + " a where a.phone = :param order by a.time desc");
         query.setString("param", phone);

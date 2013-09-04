@@ -10,11 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.Calendar;
-import java.util.List;
+
+import static com.epam.adzhiametov.controller.RedirectController.itemsOnPage;
 
 /**
  * Created by Arsen Adzhiametov on 7/31/13.
@@ -35,14 +39,14 @@ public class AddAdvertController {
 
     @RequestMapping(value = "/addadvert", method = RequestMethod.POST)
     public String addAdvert(@Valid @ModelAttribute("advert") Advert advert, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("sectionValues", Section.values());
             model.addAttribute("operationValues", Operation.values());
             return "add_advert";
         }
         advert.setTime(Calendar.getInstance());
         advertDao.create(advert);
-        model.addAttribute("adverts", advertDao.findRange(1, RedirectController.ITEMS_ON_PAGE));
+        model.addAttribute("adverts", advertDao.findRange(1, itemsOnPage));
         model.addAttribute("page", 1);
         return "advert_list";
     }
