@@ -41,7 +41,7 @@
 
             <c:if test="${page > 1}">
                 <form:form method="get" action="/paging/${page-1}">
-                    <input type="submit" value="last"/>
+                    <input type="submit" value="prev"/>
                 </form:form>
             </c:if>
 
