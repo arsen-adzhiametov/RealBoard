@@ -126,11 +126,10 @@ public class Advert {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Advert)) return false;
 
         Advert advert = (Advert) o;
 
-        if (id != advert.id) return false;
         if (contract != null ? !contract.equals(advert.contract) : advert.contract != null) return false;
         if (name != null ? !name.equals(advert.name) : advert.name != null) return false;
         if (phone != null ? !phone.equals(advert.phone) : advert.phone != null) return false;
@@ -145,7 +144,7 @@ public class Advert {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = 17;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (section != null ? section.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);

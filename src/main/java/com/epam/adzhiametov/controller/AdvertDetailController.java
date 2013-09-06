@@ -18,7 +18,7 @@ public class AdvertDetailController {
     AdvertDao advertDao;
 
     @RequestMapping(value = "/thisauthor/{phone}", method = RequestMethod.GET)
-    public String viewDetail(@PathVariable("phone") String phone, Model model) {
+    public String viewAllOfAuthor(@PathVariable("phone") String phone, Model model) {
         model.addAttribute("adverts", advertDao.find(phone));
         return "advert_list";
     }

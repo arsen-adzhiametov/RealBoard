@@ -17,7 +17,7 @@ public class RedirectController {
     public static final int ITEMS_ON_PAGE = 5;
 
     @Autowired
-    AdvertDao advertDao;
+    private AdvertDao advertDao;
 
     @RequestMapping(value = "/adverts", method = RequestMethod.GET)
     public String goToAdverts(ModelMap model) {

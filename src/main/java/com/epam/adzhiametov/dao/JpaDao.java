@@ -17,8 +17,9 @@ public abstract class JpaDao<T> extends HibernateDaoSupport implements GenericDa
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void create(T newInstance) {
+    public T create(T newInstance) {
         getHibernateTemplate().save(newInstance);
+        return newInstance;
     }
 
     @Transactional(rollbackFor = Exception.class)
