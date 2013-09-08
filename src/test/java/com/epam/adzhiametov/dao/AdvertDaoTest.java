@@ -1,125 +1,97 @@
 package com.epam.adzhiametov.dao;
 
 import com.epam.adzhiametov.model.Advert;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Arsen Adzhiametov on 7/31/13.
- * from here http://www.javahotchocolate.com/tutorials/mockito.html#glossary
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/test/java/com/epam/adzhiametov/dao/testApplicationContext.xml"})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class})
+@DatabaseSetup(value = "file:src/test/java/com/epam/adzhiametov/dao/databaseState.xml", type = DatabaseOperation.CLEAN_INSERT)
 public class AdvertDaoTest {
 
-    private static final String PHONE_1 = "phone1";
-    private static final String PHONE_2 = "phone2";
-    private static final long ID_1 = 1L;
-    private static final long ID_2 = 2L;
+    @Autowired
     private AdvertDao advertDao;
-    private Advert advert1;
-    private Advert advert2;
+
+    private Advert advert;
 
     @Before
-    public void setup() {
-        advertDao = mock(AdvertDao.class);
-
-        advert1 = new Advert();
-        advert1.setId(ID_1);
-        advert1.setTitle("title1");
-        advert1.setType("type1");
-        advert1.setText("text1");
-        advert1.setSection("section1");
-        advert1.setName("name1");
-        advert1.setTime(Calendar.getInstance());
-        advert1.setPhone(PHONE_1);
-        advert1.setPrice(new BigDecimal(1));
-
-        advert2 = new Advert();
-        advert2.setId(ID_2);
-        advert2.setTitle("title2");
-        advert2.setType("type2");
-        advert2.setText("text2");
-        advert2.setSection("section2");
-        advert2.setName("name2");
-        advert2.setTime(Calendar.getInstance());
-        advert2.setPhone(PHONE_2);
-        advert2.setPrice(new BigDecimal(2));
+    public void setUp() {
+        advert = new Advert();
+        advert.setId(1);
+        advert.setTitle("title1");
+        advert.setType("type1");
+        advert.setText("text1");
+        advert.setSection("section1");
+        advert.setName("name1");
+        advert.setTime(Calendar.getInstance());
+        advert.setPhone("phone1");
+        advert.setPrice(new BigDecimal(1));
     }
 
-    private final boolean checkStateResult(Advert a, Advert b) {
-        assertEquals(a.getName(), b.getName());
-        assertEquals(a.getPhone(), b.getPhone());
-        assertEquals(a.getPrice(), b.getPrice());
-        assertEquals(a.getText(), b.getText());
-        return true;
+    @After
+    public void tearDown() {
+        advertDao = null;
     }
 
     @Test
     public void testFindRange() throws Exception {
-        List<Advert> all = new LinkedList<Advert>();
-        all.add(advert1);
-        when(advertDao.findRange(1, 1)).thenReturn(all);
-        List<Advert> result = advertDao.findRange(1, 1);
-        verify(advertDao).findRange(1, 1);
-        assertNotNull(result);
-        assertTrue(checkStateResult(advert1, result.get(0)));
+        List<Advert> advertsFound = advertDao.findRange(1, 1);
+        assertTrue(advertsFound.size() == 1);
     }
 
     @Test
     public void testFind() throws Exception {
-        List<Advert> all = new LinkedList<Advert>();
-        all.add(advert1);
-        when(advertDao.find(PHONE_1)).thenReturn(all);
-        List<Advert> result = advertDao.find(PHONE_1);
-        verify(advertDao).find(PHONE_1);
-        assertNotNull(result);
-        assertTrue(checkStateResult(advert1, result.get(0)));
+        List<Advert> advertsFound = advertDao.find(advert.getPhone());
+        assertEquals(advertsFound.get(0), advert);
     }
 
     @Test
     public void testCreate() throws Exception {
-        when(advertDao.create(advert1)).thenReturn(advert1);
-        Advert result = advertDao.create(advert1);
-        verify(advertDao).create(result);
-        assertNotNull(result);
-        assertTrue(checkStateResult(advert1, result));
+        Advert persisted = advertDao.create(advert);
+        Advert advertFound = advertDao.read(persisted.getId());
+        assertEquals(advertFound, persisted);
     }
 
     @Test
     public void testRead() throws Exception {
-        when(advertDao.read(ID_1)).thenReturn(advert1);
-        Advert result = advertDao.read(ID_1);
-        verify(advertDao).read(ID_1);
-        assertNotNull(result);
-        assertTrue(checkStateResult(advert1, result));
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-        doNothing().doThrow(new IllegalStateException())
-                .when(advertDao).delete(advert1);
-        when(advertDao.read(ID_1)).thenReturn(advert1);
-        advertDao.delete(advert1);
-        verify(advertDao).delete(advert1);
+        Advert advertFound = advertDao.read(advert.getId());
+        assertEquals(advertFound, advert);
     }
 
     @Test
     public void testFindAll() throws Exception {
-        List<Advert> all = new LinkedList<Advert>();
-        all.add(advert1);
-        all.add(advert2);
-        when(advertDao.findAll()).thenReturn(all);
-        List<Advert> result = advertDao.findAll();
-        verify(advertDao).findAll();
-        assertEquals(2, result.size());
-        assertTrue(checkStateResult(advert1, result.get(0)));
-        assertTrue(checkStateResult(advert2, result.get(1)));
+        List<Advert> advertsFound = advertDao.findAll();
+        assertTrue(advertsFound.size() == 2);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        List<Advert> advertsFound = advertDao.findAll();
+        for (Advert toDelete : advertsFound) {
+            advertDao.delete(toDelete);
+        }
+        advertsFound = advertDao.findAll();
+        assertTrue(advertsFound.size() == 0);
     }
 }

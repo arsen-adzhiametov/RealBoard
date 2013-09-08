@@ -22,7 +22,7 @@ public class AddAdvertControllerTest {
     protected MockMvc mockMvc;
 
     @Mock
-    private AdvertDao advertDaoMock;
+    private AdvertDao mockedAdvertDao;
 
     @InjectMocks
     AddAdvertController addAdvertController = new AddAdvertController();
@@ -39,4 +39,14 @@ public class AddAdvertControllerTest {
                 .andExpect(view().name("advert_list"))
                 .andExpect(model().attributeExists("adverts", "page"));
     }
+
+    @Test
+    public void testAddAdvertWithErrors() throws Exception {
+        mockMvc.perform(post("/addadvert"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add_advert"))
+                .andExpect(model().attributeExists("sectionValues", "operationValues"));
+    }
+
+
 }

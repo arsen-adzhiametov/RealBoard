@@ -1,15 +1,12 @@
 package com.epam.adzhiametov.controller;
 
 import com.epam.adzhiametov.dao.AdvertDao;
-import com.epam.adzhiametov.model.Advert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
 
 import static com.epam.adzhiametov.controller.RedirectController.ITEMS_ON_PAGE;
 
@@ -30,8 +27,7 @@ public class AdvertsListController {
 
     @RequestMapping(value = "/paging/{page}", method = RequestMethod.GET)
     public String nextPage(@PathVariable("page") Integer page, Model model) {
-        List<Advert> adverts = advertDao.findRange(page, ITEMS_ON_PAGE);
-        model.addAttribute("adverts", adverts);
+        model.addAttribute("adverts", advertDao.findRange(page, ITEMS_ON_PAGE));
         model.addAttribute("page", page);
         return "advert_list";
     }

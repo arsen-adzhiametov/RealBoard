@@ -11,8 +11,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -27,18 +29,21 @@ public class AdvertsListControllerTest {
     private AdvertDao advertDaoMock;
 
     @InjectMocks
-    AdvertsListController advertsListController = new AdvertsListController();
+    private AdvertsListController advertsListController = new AdvertsListController();
 
     @Before
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(advertsListController).build();
+        this.mockMvc = MockMvcBuilders.
+                standaloneSetup(advertsListController)
+                .alwaysExpect(status().isOk())
+                .alwaysDo(print())
+                .build();
     }
 
     @Test
     public void testViewDetail() throws Exception {
-        when(advertDaoMock.read(30)).thenReturn(new Advert());
+        when(advertDaoMock.read(anyInt())).thenReturn(new Advert());
         mockMvc.perform(get("/viewdetail/30"))
-                .andExpect(status().isOk())
                 .andExpect(view().name("advert_details"))
                 .andExpect(model().attributeExists("advertDetail"));
     }
@@ -46,7 +51,6 @@ public class AdvertsListControllerTest {
     @Test
     public void testNextPage() throws Exception {
         mockMvc.perform(get("/paging/1"))
-                .andExpect(status().isOk())
                 .andExpect(view().name("advert_list"))
                 .andExpect(model().attributeExists("adverts", "page"));
     }
