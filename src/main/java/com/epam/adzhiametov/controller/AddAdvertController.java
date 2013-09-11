@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 import java.util.Calendar;
 
-import static com.epam.adzhiametov.controller.RedirectController.ITEMS_ON_PAGE;
+import static com.epam.adzhiametov.controller.MVCConstants.*;
 
 /**
  * Created by Arsen Adzhiametov on 7/31/13.
@@ -37,18 +37,18 @@ public class AddAdvertController {
         binder.setValidator(advertValidator);
     }
 
-    @RequestMapping(value = "/addadvert", method = RequestMethod.POST)
-    public String addAdvert(@Valid @ModelAttribute("advert") Advert advert, BindingResult result, Model model) {
+    @RequestMapping(value = REQUEST_ADD_ADVERT, method = RequestMethod.POST)
+    public String addAdvert(@Valid @ModelAttribute(ATTRIBUTE_ADVERT) Advert advert, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("sectionValues", Section.values());
-            model.addAttribute("operationValues", Operation.values());
-            return "add_advert";
+            model.addAttribute(ATTRIBUTE_SECTIONS, Section.values());
+            model.addAttribute(ATTRIBUTE_OPERATIONS, Operation.values());
+            return PAGE_ADD_ADVERT;
         }
         advert.setTime(Calendar.getInstance());
         advertDao.create(advert);
-        model.addAttribute("adverts", advertDao.findRange(1, ITEMS_ON_PAGE));
-        model.addAttribute("page", 1);
-        return "advert_list";
+        model.addAttribute(ATTRIBUTE_ADVERTS, advertDao.findRange(FIRST_PAGE, ITEMS_ON_PAGE));
+        model.addAttribute(ATTRIBUTE_PAGE, FIRST_PAGE);
+        return PAGE_ADVERTS_LIST;
     }
 
 }

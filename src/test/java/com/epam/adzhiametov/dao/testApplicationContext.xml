@@ -21,14 +21,14 @@
 
     <!-- HSQLDB Data Source -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-        <property name="url" value="jdbc:hsqldb:mem:realboard" />
-        <property name="username" value="sa" />
-        <property name="password" value="" />
-        <property name="initialSize" value="5" />
-        <property name="maxActive" value="10" />
-        <property name="poolPreparedStatements" value="true" />
-        <property name="maxOpenPreparedStatements" value="10" />
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:mem:realboard"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="10"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxOpenPreparedStatements" value="10"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">

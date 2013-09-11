@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import static com.epam.adzhiametov.controller.MVCConstants.*;
+
 @Controller
 public class RedirectController {
-
-    public static final int ITEMS_ON_PAGE = 5;
 
     @Autowired
     private AdvertDao advertDao;
 
-    @RequestMapping(value = "/adverts", method = RequestMethod.GET)
+    @RequestMapping(value = REQUEST_ADVERTS_LIST, method = RequestMethod.GET)
     public String goToAdverts(ModelMap model) {
-        model.addAttribute("adverts", advertDao.findRange(1, ITEMS_ON_PAGE));
-        model.addAttribute("page", 1);
-        return "advert_list";
+        model.addAttribute(ATTRIBUTE_ADVERTS, advertDao.findRange(1, ITEMS_ON_PAGE));
+        model.addAttribute(ATTRIBUTE_PAGE, FIRST_PAGE);
+        return PAGE_ADVERTS_LIST;
     }
 
-    @RequestMapping(value = "/gotoadd", method = RequestMethod.GET)
-    public String goToPage(@ModelAttribute("advert") Advert advert, ModelMap model) {
-        model.addAttribute("sectionValues", Section.values());
-        model.addAttribute("operationValues", Operation.values());
-        return "add_advert";
+    @RequestMapping(value = REQUEST_GOTO_ADD_ADVERT, method = RequestMethod.GET)
+    public String goToPage(@ModelAttribute(ATTRIBUTE_ADVERT) Advert advert, ModelMap model) {
+        model.addAttribute(ATTRIBUTE_SECTIONS, Section.values());
+        model.addAttribute(ATTRIBUTE_OPERATIONS, Operation.values());
+        return PAGE_ADD_ADVERT;
     }
 }

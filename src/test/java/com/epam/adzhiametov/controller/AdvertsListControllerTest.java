@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static com.epam.adzhiametov.controller.MVCConstants.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,15 +44,15 @@ public class AdvertsListControllerTest {
     @Test
     public void testViewDetail() throws Exception {
         when(advertDaoMock.read(anyInt())).thenReturn(new Advert());
-        mockMvc.perform(get("/viewdetail/30"))
-                .andExpect(view().name("advert_details"))
-                .andExpect(model().attributeExists("advertDetail"));
+        mockMvc.perform(get(REQUEST_VIEW_DETAIL_TEST))
+                .andExpect(view().name(PAGE_ADVERT_DETAILS))
+                .andExpect(model().attributeExists(ATTRIBUTE_ADVERT_DETAIL));
     }
 
     @Test
     public void testNextPage() throws Exception {
-        mockMvc.perform(get("/paging/1"))
-                .andExpect(view().name("advert_list"))
-                .andExpect(model().attributeExists("adverts", "page"));
+        mockMvc.perform(get(REQUEST_PAGE_TEST))
+                .andExpect(view().name(PAGE_ADVERTS_LIST))
+                .andExpect(model().attributeExists(ATTRIBUTE_ADVERTS, ATTRIBUTE_PAGE));
     }
 }
